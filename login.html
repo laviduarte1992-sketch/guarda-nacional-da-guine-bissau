@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Funcionário - Guarda Nacional</title>
-    <!-- Biblioteca do Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
@@ -35,9 +34,8 @@
 </div>
 
 <script>
-    // Configuração do Supabase
-    const SUPABASE_URL = 'SEU_SUPABASE_URL';
-    const SUPABASE_ANON_KEY = 'SUA_SUPABASE_ANON_KEY';
+    const SUPABASE_URL = 'https://ymuldaviwfbcvocfknaw.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEzNzM4NDAsImV4cCI6MjA1Njk0OTg0MH0.sua_chave_completa_aqui'; 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
@@ -46,7 +44,6 @@
         const errorMsg = document.getElementById('errorMsg');
         errorMsg.textContent = 'A verificar matrícula...';
 
-        // Consulta a tabela de funcionários no Supabase
         const { data, error } = await supabaseClient
             .from('funcionarios')
             .select('*')
@@ -56,7 +53,6 @@
         if (error || !data) {
             errorMsg.textContent = 'Matrícula não encontrada no sistema.';
         } else {
-            // Guarda as informações do funcionário no navegador e entra no painel
             localStorage.setItem('funcionario_ativo', JSON.stringify(data));
             window.location.href = 'painel.html';
         }
