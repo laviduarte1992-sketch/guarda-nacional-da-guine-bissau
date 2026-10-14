@@ -4,92 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Operacional - Guarda Nacional</title>
+    <!-- Biblioteca do Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; background-color: #eef2f5; color: #333; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; }
         header { background-color: #1e3d2f; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
-        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
-        .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .btn-primary { background-color: #1e3d2f; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        .btn-primary:hover { background-color: #14281f; }
-        .btn-sair { background-color: #d9534f; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; font-size: 14px; }
+        header h1 { margin: 0; font-size: 20px; }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .btn-logout { background-color: #d9534f; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-logout:hover { background-color: #c9302c; }
+        .container { max-width: 700px; margin: 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .container h2 { color: #1e3d2f; margin-top: 0; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
+        .form-group textarea { resize: vertical; height: 100px; }
+        .btn-submit { background-color: #1e3d2f; color: white; padding: 12px 20px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; width: 100%; font-weight: bold; }
+        .btn-submit:hover { background-color: #14281f; }
+        .msg-status { margin-top: 15px; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <header>
-    <h2>Portal Interno | Guarda Nacional</h2>
-    <div>
-        <span id="userInfo">A carregar perfil...</span> | 
-        <a href="#" onclick="logout()" class="btn-sair">Sair</a>
+    <h1>Portal Interno | Guarda Nacional</h1>
+    <div class="user-info">
+        <span id="userInfo">A carregar perfil...</span>
+        <button class="btn-logout" onclick="terminarSessao()">Sair</button>
     </div>
 </header>
 
 <div class="container">
-    <div class="card">
-        <h3>Registo de Nova Ocorrência / Patrulhamento</h3>
-        <form id="ocorrenciaForm">
-            <div class="form-group">
-                <label for="tipo">Tipo de Ocorrência</label>
-                <input type="text" id="tipo" required placeholder="Ex: Patrulhamento urbano, Incidente, Fiscalização">
-            </div>
-            <div class="form-group">
-                <label for="local">Localização</label>
-                <input type="text" id="local" required placeholder="Ex: Bissau - Sector Central">
-            </div>
-            <div class="form-group">
-                <label for="descricao">Descrição da Ocorrência</label>
-                <textarea id="descricao" rows="4" required placeholder="Detalhes operacionais..."></textarea>
-            </div>
-            <button type="submit" class="btn-primary">Gravar no Banco de Dados</button>
-        </form>
-    </div>
+    <h2>Registo de Nova Ocorrência / Patrulhamento</h2>
+    <form id="ocorrenciaForm">
+        <div class="form-group">
+            <label for="tipo">Tipo de Ocorrência</label>
+            <input type="text" id="tipo" required placeholder="Ex: Patrulhamento urbano, Incidente, Fiscalização">
+        </div>
+        <div class="form-group">
+            <label for="localizacao">Localização</label>
+            <input type="text" id="localizacao" required placeholder="Ex: Bissau - Sector Central">
+        </div>
+        <div class="form-group">
+            <label for="descricao">Descrição da Ocorrência</label>
+            <textarea id="descricao" required placeholder="Detalhes operacionais..."></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Gravar no Banco de Dados</button>
+        <div id="statusMsg" class="msg-status"></div>
+    </form>
 </div>
 
 <script>
-    const SUPABASE_URL = 'COLE_AQUI_A_SUA_URL_DO_SUPABASE';
-    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExNDA4NDcsImV4cCI6MjEwNjcxNjg0N30.uBSZQ_YChvWUS7B7TE762qGRSBaajFf-Flh18J7E0BU
+    // Configuração do Supabase (mesma do login)
+    const SUPABASE_URL = 'https://ymuldaviwfbcvocfknaw.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExNDA4NDcsImV4cCI6MjEwNjcxNjg0N30.uBSZQ_YChvWUS7B7TE762qGRSBaajFf-Flh18J7E0BU'; 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Verificação de sessão
-    const funcionario = JSON.parse(localStorage.getItem('funcionario_ativo'));
-    if (!funcionario) {
+    // 1. Carregar os dados do funcionário guardados no Login
+    const funcionarioStr = localStorage.getItem('funcionario_ativo');
+    if (!funcionarioStr) {
+        // Se não estiver logado, redireciona de volta para o login
         window.location.href = 'login.html';
     } else {
-        document.getElementById('userInfo').textContent = `Agente: ${funcionario.nome_completo} (${funcionario.patente})`;
+        const funcionario = JSON.parse(funcionarioStr);
+        // Exibe o nome e a patente no topo
+        document.getElementById('userInfo').textContent = `${funcionario.patente} ${funcionario.nome_completo || funcionario.nome}`;
     }
 
-    function logout() {
+    // 2. Função para terminar sessão
+    function terminarSessao() {
         localStorage.removeItem('funcionario_ativo');
         window.location.href = 'login.html';
     }
 
-    // Gravação no Supabase
+    // 3. Enviar registo de ocorrência para a tabela 'registos'
     document.getElementById('ocorrenciaForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        
+        const statusMsg = document.getElementById('statusMsg');
+        statusMsg.style.color = '#333';
+        statusMsg.textContent = 'A gravar ocorrência no sistema...';
+
+        const funcionario = JSON.parse(localStorage.getItem('funcionario_ativo'));
+
         const tipo = document.getElementById('tipo').value;
-        const local = document.getElementById('local').value;
+        const localizacao = document.getElementById('localizacao').value;
         const descricao = document.getElementById('descricao').value;
 
-        const { data, error } = await supabaseClient
+        // Inserção na tabela registos do Supabase
+        const { error } = await supabaseClient
             .from('registos')
             .insert([
                 { 
-                    funcionario_id: funcionario.id, 
                     tipo_ocorrencia: tipo, 
-                    localizacao: local, 
-                    descricao: descricao 
+                    localizacao: localizacao, 
+                    descricao: descricao, 
+                    matricula_funcionario: funcionario.matricula 
                 }
             ]);
 
         if (error) {
-            alert('Erro ao gravar: ' + error.message);
+            statusMsg.style.color = '#d9534f';
+            statusMsg.textContent = 'Erro ao gravar: ' + error.message;
         } else {
-            alert('Ocorrência registada com sucesso!');
+            statusMsg.style.color = '#28a745';
+            statusMsg.textContent = 'Ocorrência gravada com sucesso no Banco de Dados!';
             document.getElementById('ocorrenciaForm').reset();
         }
     });
