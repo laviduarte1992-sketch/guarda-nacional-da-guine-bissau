@@ -35,8 +35,8 @@
 
 <script>
     const SUPABASE_URL = 'https://ymuldaviwfbcvocfknaw.supabase.co';
-    const SUPABASE_ANON_KEY = 'COLE_A_SUA_CHAVE_ANON_AQUI'; 
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5Mjg5MzcsImV4cCI6MjA4NzUwNDkzN30.eyJ1c2VySWQiOiJ0ZXN0ZSJ9...'; 
+    const supabaseClient = supabase.createClient(SUPABASE_URL, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5Mjg5MzcsImV4cCI6MjA4NzUwNDkzN30.eyJwYXlsb2FkIjoidGVzdGUifQ');
 
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -53,9 +53,6 @@
             alert('Erro técnico: ' + error.message);
             return;
         }
-
-        // Mostra o que o Supabase encontrou na tabela
-        alert('Resultado do Supabase: ' + JSON.stringify(data));
 
         if (!data || data.length === 0) {
             errorMsg.textContent = 'Matrícula não encontrada no sistema.';
