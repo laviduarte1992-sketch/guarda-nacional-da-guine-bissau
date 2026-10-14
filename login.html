@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Funcionário - Guarda Nacional</title>
-    <!-- Biblioteca do Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
@@ -35,24 +34,28 @@
 </div>
 
 <script>
-    // As suas credenciais do Supabase
     const SUPABASE_URL = 'https://ymuldaviwfbcvocfknaw.supabase.co';
-    const SUPABASE_ANON_KEY = 'SUA_CHAVE_ANON_AQUI'; 
+    const SUPABASE_ANON_KEY = 'COLE_A_SUA_CHAVE_ANON_AQUI'; 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        const matricula = document.getElementById('matricula').value.trim();
+        const matricula = document.getElementById('matricula'].value.trim();
         const errorMsg = document.getElementById('errorMsg');
         errorMsg.textContent = 'A verificar matrícula...';
 
         const { data, error } = await supabaseClient
             .from('funcionarios')
             .select('*')
-            .eq('matricula', matricula)
-            .limit(1);
+            .eq('matricula', matricula);
 
-        if (error || !data || data.length === 0) {
+        if (error) {
+            alert('Erro técnico do Supabase: ' + error.message);
+            errorMsg.textContent = 'Erro de ligação.';
+            return;
+        }
+
+        if (!data || data.length === 0) {
             errorMsg.textContent = 'Matrícula não encontrada no sistema.';
         } else {
             localStorage.setItem('funcionario_ativo', JSON.stringify(data[0]));
