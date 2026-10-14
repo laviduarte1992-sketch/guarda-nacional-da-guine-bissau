@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal do Funcionário - Guarda Nacional</title>
-    <!-- Biblioteca Oficial do Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
@@ -36,33 +35,28 @@
 
 <script>
     const SUPABASE_URL = 'https://ymuldaviwfbcvocfknaw.supabase.co';
-    const SUPABASE_ANON_KEY = ' eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExNDA4NDcsImV4cCI6MjEwNjcxNjg0N30.uBSZQ_YChvWUS7B7TE762qGRSBaajFf-Flh18J7E0BU
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExNDA4NDcsImV4cCI6MjEwNjcxNjg0N30.uBSZQ_YChvWUS7B7TE762qGRSBaajFf-Flh18J7E0BU'; 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const matricula = document.getElementById('matricula').value.trim();
         const errorMsg = document.getElementById('errorMsg');
-        errorMsg.textContent = 'A verificar matrícula...';
+        errorMsg.textContent = 'A verificar...';
 
-        // Consulta a tabela de funcionários no Supabase
         const { data, error } = await supabaseClient
             .from('funcionarios')
             .select('*')
             .eq('matricula', matricula);
 
         if (error) {
-            alert('Erro no Supabase: ' + error.message);
-            errorMsg.textContent = 'Erro de ligação.';
+            alert('Erro: ' + error.message);
             return;
         }
 
-        // Se não encontrar registo, mostra alerta de teste com o que veio da BD
         if (!data || data.length === 0) {
-            alert('A base de dados respondeu: Nenhum funcionário encontrado com a matrícula ' + matricula);
-            errorMsg.textContent = 'Matrícula não encontrada no sistema.';
+            errorMsg.textContent = 'Matrícula não encontrada.';
         } else {
-            alert('Sucesso! Funcionário encontrado: ' + data[0].nome);
             localStorage.setItem('funcionario_ativo', JSON.stringify(data[0]));
             window.location.href = 'painel.html';
         }
