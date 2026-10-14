@@ -40,7 +40,7 @@
 
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        const matricula = document.getElementById('matricula'].value.trim();
+        const matricula = document.getElementById('matricula').value.trim();
         const errorMsg = document.getElementById('errorMsg');
         errorMsg.textContent = 'A verificar matrícula...';
 
@@ -50,7 +50,7 @@
             .eq('matricula', matricula);
 
         if (error) {
-            alert('Erro técnico do Supabase: ' + error.message);
+            alert('Erro técnico: ' + error.message);
             errorMsg.textContent = 'Erro de ligação.';
             return;
         }
