@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Operacional - Guarda Nacional</title>
-    <!-- Biblioteca do Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; }
@@ -55,29 +54,23 @@
 </div>
 
 <script>
-    // Configuração do Supabase (mesma do login)
     const SUPABASE_URL = 'https://ymuldaviwfbcvocfknaw.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExNDA4NDcsImV4cCI6MjEwNjcxNjg0N30.uBSZQ_YChvWUS7B7TE762qGRSBaajFf-Flh18J7E0BU'; 
+    const SUPABASE_ANON_KEY = 'A_SUA_CHAVE_PUBLISHABLE_AQUI'; 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // 1. Carregar os dados do funcionário guardados no Login
     const funcionarioStr = localStorage.getItem('funcionario_ativo');
     if (!funcionarioStr) {
-        // Se não estiver logado, redireciona de volta para o login
         window.location.href = 'login.html';
     } else {
         const funcionario = JSON.parse(funcionarioStr);
-        // Exibe o nome e a patente no topo
         document.getElementById('userInfo').textContent = `${funcionario.patente} ${funcionario.nome_completo || funcionario.nome}`;
     }
 
-    // 2. Função para terminar sessão
     function terminarSessao() {
         localStorage.removeItem('funcionario_ativo');
         window.location.href = 'login.html';
     }
 
-    // 3. Enviar registo de ocorrência para a tabela 'registos'
     document.getElementById('ocorrenciaForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const statusMsg = document.getElementById('statusMsg');
@@ -90,7 +83,6 @@
         const localizacao = document.getElementById('localizacao').value;
         const descricao = document.getElementById('descricao').value;
 
-        // Inserção na tabela registos do Supabase
         const { error } = await supabaseClient
             .from('registos')
             .insert([
@@ -98,7 +90,7 @@
                     tipo_ocorrencia: tipo, 
                     localizacao: localizacao, 
                     descricao: descricao, 
-                    matricula_funcionario: funcionario.matricula 
+                    funcionario_id: funcionario.id 
                 }
             ]);
 
