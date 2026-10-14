@@ -34,9 +34,9 @@
 </div>
 
 <script>
-    const SUPABASE_URL = 'https://ymuldaviwfbcvocfknaw.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5Mjg5MzcsImV4cCI6MjA4NzUwNDkzN30.eyJ1c2VySWQiOiJ0ZXN0ZSJ9...'; 
-    const supabaseClient = supabase.createClient(SUPABASE_URL, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5Mjg5MzcsImV4cCI6MjA4NzUwNDkzN30.eyJwYXlsb2FkIjoidGVzdGUifQ');
+  const SUPABASE_URL = 'https://ymuldaviwfbcvocfknaw.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdWxkYXZpd2ZiY3ZvY2ZrbmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExNDA4NDcsImV4cCI6MjEwNjcxNjg0N30.uBSZQ_YChvWUS7B7TE762qGRSBaajFf-Flh18J7E0BU
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
         e.preventDefault();
