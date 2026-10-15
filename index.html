@@ -11,6 +11,7 @@
         /* Cabeçalho */
         header { background-color: #1e3d2f; color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-area img { width: 40px; height: 40px; border-radius: 50%; }
         .logo-area h1 { font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
         nav { display: flex; align-items: center; gap: 20px; }
         nav a { color: white; text-decoration: none; font-weight: bold; font-size: 14px; transition: color 0.3s; }
@@ -18,27 +19,24 @@
         .btn-portal { background-color: #e6a100; color: #1e3d2f; padding: 8px 16px; border-radius: 4px; font-weight: bold; text-decoration: none; }
         .btn-portal:hover { background-color: #cca000; }
 
-        /* Banner Principal Verde Institucional com Brasão Central */
+        /* Banner Principal com Brasão Oficial Centralizado */
         .hero { 
             background-color: #1e3d2f; 
             color: white; 
             text-align: center; 
-            padding: 80px 20px 70px 20px; 
+            padding: 70px 20px 60px 20px; 
         }
 
-        /* Brasão Centralizado */
-        .brasao-central {
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 25px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .brasao-central svg {
-            width: 100%;
-            height: 100%;
+        /* Imagem do Brasão Oficial */
+        .brasao-img {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            margin: 0 auto 20px auto;
+            display: block;
+            border: 3px solid #e6a100;
         }
 
         .hero h2 { font-size: 36px; margin-bottom: 15px; }
@@ -59,6 +57,7 @@
 
 <header>
     <div class="logo-area">
+        <img src="brasao.jpg" alt="Brasão da Guarda Nacional">
         <h1>Guarda Nacional | Guiné-Bissau</h1>
     </div>
     <nav>
@@ -71,19 +70,8 @@
 </header>
 
 <section id="inicio" class="hero">
-    <!-- Brasão Oficial da Guarda Nacional -->
-    <div class="brasao-central">
-        <svg viewBox="0 0 100 100">
-            <!-- Círculo Exterior Dourado -->
-            <circle cx="50" cy="50" r="46" fill="none" stroke="#e6a100" stroke-width="3"/>
-            <!-- Estrela Preta Central da Guiné-Bissau -->
-            <polygon points="50,18 57,38 78,38 61,51 68,72 50,59 32,72 39,51 22,38 43,38" fill="black"/>
-            <!-- Ramo Dourado Esquerdo -->
-            <path d="M22,62 Q16,72 22,80" fill="none" stroke="#e6a100" stroke-width="2.5"/>
-            <!-- Ramo Dourado Direito -->
-            <path d="M78,62 Q84,72 78,80" fill="none" stroke="#e6a100" stroke-width="2.5"/>
-        </svg>
-    </div>
+    <!-- Imagem do Brasão Oficial da Guarda Nacional -->
+    <img src="brasao.jpg" alt="Brasão Oficial Guarda Nacional" class="brasao-img">
 
     <h2>Honra, Pátria e Segurança</h2>
     <p>Garantindo a ordem pública, a segurança do Estado e a proteção das populações na República da Guiné-Bissau.</p>
