@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Comando e Gestão - Guarda Nacional</title>
+    <!-- Biblioteca Oficial do Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333; }
+        header { background-color: #14281f; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 20px; }
+        .btn-logout { background-color: #d9534f; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        .main-container { padding: 30px 5%; max-width: 1200px; margin: 0 auto; }
+        
+        /* Cartões de Estatísticas */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #1e3d2f; }
+        .stat-card h3 { font-size: 14px; color: #666; text-transform: uppercase; margin-bottom: 10px; }
+        .stat-card p { font-size: 28px; font-weight: bold; color: #1e3d2f; }
+
+        /* Secções e Tabelas */
+        .card-section { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 30px; }
+        .card-section h2 { color: #1e3d2f; margin-bottom: 20px; font-size: 18px; border-bottom: 2px solid #f4f6f9; padding-bottom: 10px; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .btn-add { background-color: #1e3d2f; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        table th { background-color: #f8f9fa; color: #1e3d2f; font-weight: bold; }
+        
+        .search-box { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Alto Comando | Painel de Gestão da Guarda Nacional</h1>
+    <button class="btn-logout" onclick="window.location.href='index.html'">Voltar ao Site</button>
+</header>
+
+<div class="main-container">
+
+    <!-- 📊 Estatísticas Rápidas -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total de Funcionários</h3>
+            <p id="totalFuncionarios">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Total de Ocorrências</h3>
+            <p id="totalOcorrencias">0</p>
+        </div>
+    </div>
+
+    <!-- 👥 Gestão e Cadastro de Funcionários -->
+    <div class="card-section">
+        <h2>Cadastrar Novo Funcionário / Agente</h2>
+        <form id="addFuncionarioForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" required placeholder="Ex: Amadu Baldé">
+                </div>
+                <div class="form-group">
+                    <label for="matricula">Matrícula</label>
+                    <input type="text" id="matricula" required placeholder="Ex: GN-2026-002">
+                </div>
+                <div class="form-group">
+                    <label for="patente">Patente</label>
+                    <input type="text" id="patente" required placeholder="Ex: Tenente, Agente">
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" required placeholder="email@guardanacional.gw">
+                </div>
+            </div>
+            <button type="submit" class="btn-add">Adicionar Funcionário</button>
+            <span id="msgFuncionario" style="margin-left: 15px; font-weight: bold;"></span>
+        </form>
+
+        <h3 style="margin-top: 30px; font-size: 15px; color: #1e3d2f;">Lista de Funcionários</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Matrícula</th>
+                    <th>Nome Completo</th>
+                    <th>Patente</th>
+                    <th>E-mail</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaFuncionarios">
+                <tr><td colspan="4">A carregar dados...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 📋 Histórico Geral de Ocorrências -->
+    <div class="card-section">
+        <h2>Histórico Geral de Ocorrências Registadas</h2>
+        <input type="text" id="pesquisaOcorrencia" class="search-box" placeholder="Pesquisar por tipo, localização ou descrição..." onkeyup="filtrarTabela()">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Tipo</th>
+                    <th>Localização</th>
+                    <th>Descrição</th>
+                    <th>Agente / ID</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaOcorrencias">
+                <tr><td colspan="5">A carregar registos...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    // Configuração do Supabase
+    const SUPABASE_URL = 'https://ymuldaviwfbcvocfknaw.supabase.co';
+    const SUPABASE_ANON_KEY = 'SUBSTITUA_PELA_SUA_CHAVE_PUBLISHABLE_REAL'; 
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Inicialização da página
+    async function carregarDadosDashboard() {
+        carregarFuncionarios();
+        carregarOcorrencias();
+    }
+
+    // 1. Carregar Funcionários
+    async function carregarFuncionarios() {
+        const { data, error } = await supabaseClient.from('funcionarios').select('*');
+        
+        if (error) {
+            console.error(error);
+            return;
+        }
+
+        document.getElementById('totalFuncionarios').textContent = data.length;
+        
+        const tbody = document.getElementById('tabelaFuncionarios');
+        tbody.innerHTML = '';
+        
+        data.forEach(func => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${func.matricula}</strong></td>
+                <td>${func.nome_completo || func.nome}</td>
+                <td>${func.patente}</td>
+                <td>${func.email || '-'}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // 2. Carregar Ocorrências
+    async function carregarOcorrencias() {
+        const { data, error } = await supabaseClient.from('registos').select('*');
+
+        if (error) {
+            console.error(error);
+            return;
+        }
+
+        document.getElementById('totalOcorrencias').textContent = data.length;
+
+        const tbody = document.getElementById('tabelaOcorrencias');
+        tbody.innerHTML = '';
+
+        data.forEach(reg => {
+            const tr = document.createElement('tr');
+            const dataFormatada = reg.created_at ? new Date(reg.created_at).toLocaleString('pt-PT') : '-';
+            tr.innerHTML = `
+                <td>${dataFormatada}</td>
+                <td><strong>${reg.tipo_ocorrencia}</strong></td>
+                <td>${reg.localizacao}</td>
+                <td>${reg.descricao}</td>
+                <td>${reg.funcionario_id || reg.matricula_funcionario || '-'}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // 3. Formulário para adicionar novo funcionário
+    document.getElementById('addFuncionarioForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const msg = document.getElementById('msgFuncionario');
+        msg.textContent = 'A guardar...';
+
+        const nome = document.getElementById('nome').value;
+        const matricula = document.getElementById('matricula').value;
+        const patente = document.getElementById('patente').value;
+        const email = document.getElementById('email').value;
+
+        const { error } = await supabaseClient.from('funcionarios').insert([
+            { nome_completo: nome, matricula: matricula, patente: patente, email: email }
+        ]);
+
+        if (error) {
+            msg.style.color = 'red';
+            msg.textContent = 'Erro ao cadastrar: ' + error.message;
+        } else {
+            msg.style.color = 'green';
+            msg.textContent = 'Funcionário cadastrado com sucesso!';
+            document.getElementById('addFuncionarioForm').reset();
+            carregarFuncionarios();
+        }
+    });
+
+    // 4. Filtro de pesquisa rápida
+    function filtrarTabela() {
+        const input = document.getElementById("pesquisaOcorrencia").value.toLowerCase();
+        const rows = document.getElementById("tabelaOcorrencias").getElementsByTagName("tr");
+
+        for (let i = 0; i < rows.length; i++) {
+            const texto = rows[i].textContent.toLowerCase();
+            rows[i].style.display = texto.includes(input) ? "" : "none";
+        }
+    }
+
+    window.onload = carregarDadosDashboard;
+</script>
+
+</body>
+</html>
