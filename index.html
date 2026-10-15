@@ -15,11 +15,43 @@
         nav { display: flex; align-items: center; gap: 20px; }
         nav a { color: white; text-decoration: none; font-weight: bold; font-size: 14px; transition: color 0.3s; }
         nav a:hover { color: #d1e7dd; }
-        .btn-portal { background-color: #e6a100; color: #1e3d2f; padding: 8px 16px; border-radius: 4px; font-weight: bold; text-decoration: none; }
+        .btn-portal { background-color: #e6a100; color: #1e3d2f; padding: 8px 16px; border-radius: 4px; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 5px; }
         .btn-portal:hover { background-color: #cca000; }
 
-        /* Banner Principal */
-        .hero { background: linear-gradient(rgba(30, 61, 47, 0.85), rgba(30, 61, 47, 0.85)), url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80') center/cover; color: white; text-align: center; padding: 100px 20px; }
+        /* Banner Principal com Brasão CENTRAL */
+        .hero { 
+            /* Fundo com as cores da Guiné-Bissau (padrão sutil) */
+            background: #1e3d2f; 
+            background-image: 
+                linear-gradient(rgba(30, 61, 47, 0.95), rgba(30, 61, 47, 0.95)), /* Camada escura */
+                linear-gradient(90deg, transparent 50%, rgba(206, 17, 38, 0.1) 50%), /* Vermelho */
+                linear-gradient(rgba(252, 216, 0, 0.1) 50%, transparent 50%); /* Amarelo */
+            background-size: 100%, 20px 20px, 20px 20px;
+            color: white; 
+            text-align: center; 
+            padding: 120px 20px 100px 20px; /* Mais espaço no topo */
+            position: relative;
+        }
+
+        /* O Símbolo/Brasão Central */
+        .brasao-central {
+            width: 150px; /* Tamanho do brasão */
+            height: 150px;
+            background-color: transparent;
+            margin: 0 auto 30px auto; /* Centralizado horizontalmente */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* SVG do Brasão (Simbólico) */
+        .brasao-central svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
         .hero h2 { font-size: 36px; margin-bottom: 15px; }
         .hero p { font-size: 18px; max-width: 700px; margin: 0 auto 25px auto; }
 
@@ -27,7 +59,8 @@
         .section { padding: 60px 10%; background: white; margin-bottom: 20px; }
         .section-title { text-align: center; color: #1e3d2f; font-size: 26px; margin-bottom: 40px; }
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .card { background: #f4f6f9; padding: 25px; border-radius: 8px; border-top: 4px solid #1e3d2f; }
+        .card { background: #f4f6f9; padding: 25px; border-radius: 8px; border-top: 4px solid #1e3d2f; transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); }
         .card h3 { color: #1e3d2f; margin-bottom: 10px; }
 
         /* Rodapé */
@@ -44,47 +77,4 @@
         <a href="#inicio">Início</a>
         <a href="#sobre">Sobre Nós</a>
         <a href="#servicos">Serviços</a>
-        <a href="#contactos">Contactos</a>
-        <a href="login.html" class="btn-portal">Portal do Funcionário &rarr;</a>
-    </nav>
-</header>
-
-<section id="inicio" class="hero">
-    <h2>Honra, Pátria e Segurança</h2>
-    <p>Garantindo a ordem pública, a segurança do Estado e a proteção das populações na República da Guiné-Bissau.</p>
-</section>
-
-<section id="sobre" class="section">
-    <h2 class="section-title">Nossa Missão</h2>
-    <div class="cards-grid">
-        <div class="card">
-            <h3>Ordem Pública</h3>
-            <p>Atuação contínua na prevenção e manutenção da segurança operacional e tranquilidade dos cidadãos.</p>
-        </div>
-        <div class="card">
-            <h3>Controlo de Fronteiras</h3>
-            <p>Fiscalização rigorosa de pontos aduaneiros e territoriais para combate a ilícitos operacionais.</p>
-        </div>
-        <div class="card">
-            <h3>Apoio à Comunidade</h3>
-            <p>Assistência e resposta rápida em situações de emergência nacional e socorro comunitário.</p>
-        </div>
-    </div>
-</section>
-
-<section id="contactos" class="section" style="background-color: #f4f6f9;">
-    <h2 class="section-title">Contactos Gerais</h2>
-    <div style="text-align: center; max-width: 600px; margin: 0 auto;">
-        <p><strong>Comando Geral da Guarda Nacional</strong></p>
-        <p>Bissau, República da Guiné-Bissau</p>
-        <p style="margin-top: 10px;"><strong>Emergência:</strong> (+245) 9XXXX-XXXX</p>
-        <p><strong>Email Institucional:</strong> contacto@guardanacional.gw</p>
-    </div>
-</section>
-
-<footer>
-    <p>&copy; 2026 Guarda Nacional da Guiné-Bissau. Todos os direitos reservados.</p>
-</footer>
-
-</body>
-</html>
+        <a href="#contactos">Contact
