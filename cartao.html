@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartão Digital de Identificação | Guarda Nacional</title>
+  <!-- Biblioteca para gerar o QR Code automaticamente -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    /* Estilo do Cartão Militar */
+    .id-card {
+      width: 350px;
+      height: 560px;
+      background: linear-gradient(135deg, #1b382b 0%, #0d2118 100%);
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      border: 2px solid #d4af37;
+      color: #ffffff;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Detalhe decorativo no topo */
+    .id-card::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 50%;
+    }
+    .header {
+      text-align: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+      padding-bottom: 10px;
+      width: 100%;
+    }
+    .header h2 {
+      margin: 0;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #d4af37;
+    }
+    .header p {
+      margin: 3px 0 0 0;
+      font-size: 11px;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+    .photo-area {
+      width: 110px;
+      height: 125px;
+      border-radius: 8px;
+      border: 2px solid #d4af37;
+      background-color: #2a4737;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    .photo-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .user-info {
+      text-align: center;
+      width: 100%;
+    }
+    .rank {
+      font-size: 14px;
+      font-weight: bold;
+      color: #d4af37;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    .badge-number {
+      display: inline-block;
+      background-color: rgba(212, 175, 55, 0.2);
+      border: 1px solid #d4af37;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .qrcode-container {
+      background-color: #ffffff;
+      padding: 8px;
+      border-radius: 8px;
+      border: 2px solid #d4af37;
+      margin-top: 5px;
+    }
+    .footer {
+      font-size: 9px;
+      text-align: center;
+      opacity: 0.7;
+      width: 100%;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 8px;
+    }
+    .status-active {
+      color: #2ecc71;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="id-card">
+    <div class="header">
+      <h2>Guarda Nacional</h2>
+      <p>República da Guiné-Bissau</p>
+      <p style="font-weight: bold; color: #ffffff; font-size: 10px; margin-top: 2px;">CARTÃO DIGITAL DE IDENTIFICAÇÃO</p>
+    </div>
+
+    <div class="photo-area">
+      <!-- Caso tenha foto do funcionário no futuro -->
+      <img id="user-photo" src="https://via.placeholder.com/110x125?text=FOTO+OFICIAL" alt="Foto Oficial">
+    </div>
+
+    <div class="user-info">
+      <div class="rank" id="card-patente">Patente...</div>
+      <div class="name" id="card-nome">Carregando Nome...</div>
+      <div class="badge-number" id="card-matricula">MATRÍCULA: ---</div>
+    </div>
+
+    <div class="qrcode-container">
+      <div id="qrcode"></div>
+    </div>
+
+    <div class="footer">
+      SISTEMA OPERACIONAL INTEGRADO • STATUS: <span class="status-active">ATIVO</span><br>
+      USO OFICIAL E EXCLUSIVO
+    </div>
+  </div>
+
+  <script>
+    // 1. Inicializar Supabase com as suas chaves
+    const SUPABASE_URL = 'SUA_SUPABASE_URL_AQUI';
+    const SUPABASE_ANON_KEY = 'SUA_SUPABASE_ANON_KEY_AQUI';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 2. Obter a matrícula (pode vir da sessão de login ou da URL ex: ?matricula=GN-2026-001)
+    const urlParams = new URLSearchParams(window.location.search);
+    const matriculaParam = urlParams.get('matricula') || sessionStorage.getItem('user_matricula') || 'GN-2026-01';
+
+    async function carregarCartaoDigital() {
+      // Procurar o funcionário no Supabase
+      const { data, error } = await _supabase
+        .from('funcionarios')
+        .select('*')
+        .eq('matricula', matriculaParam)
+        .single();
+
+      if (error || !data) {
+        document.getElementById('card-nome').innerText = "Funcionário Não Encontrado";
+        return;
+      }
+
+      // Preencher o cartão com os dados do Supabase
+      document.getElementById('card-patente').innerText = data.patente || 'Agente';
+      document.getElementById('card-nome').innerText = data.nome_completo;
+      document.getElementById('card-matricula').innerText = `MATRÍCULA: ${data.matricula}`;
+
+      // Gerar QR Code único com link de verificação
+      const linkVerificacao = `https://guardanacional-gw.com/validar.html?matricula=${data.matricula}`;
+      
+      new QRCode(document.getElementById("qrcode"), {
+        text: linkVerificacao,
+        width: 85,
+        height: 85,
+        colorDark: "#0d2118",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    carregarCartaoDigital();
+  </script>
+</body>
+</html>
