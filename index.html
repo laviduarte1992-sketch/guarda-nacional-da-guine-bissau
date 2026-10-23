@@ -3,36 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guarda Nacional da Guiné-Bissau - Portal Oficial</title>
+    <title>Guarda Nacional da Guiné-Bissau - Site Oficial</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: Arial, sans-serif; 
+        body { font-family: Arial, sans-serif; background-color: #f8f9fa; color: #333; line-height: 1.6; }
+        
+        /* Cabeçalho */
+        header { background-color: #1e3d2f; color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-area h1 { font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+        nav { display: flex; align-items: center; gap: 20px; }
+        nav a { color: white; text-decoration: none; font-weight: bold; font-size: 14px; transition: color 0.3s; }
+        nav a:hover { color: #d1e7dd; }
+        .btn-portal { background-color: #e6a100; color: #1e3d2f; padding: 8px 16px; border-radius: 4px; font-weight: bold; text-decoration: none; }
+        .btn-portal:hover { background-color: #cca000; }
+
+        /* Banner Principal Verde Institucional com Brasão Central */
+        .hero { 
             background-color: #1e3d2f; 
             color: white; 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
             text-align: center; 
-            padding: 20px;
+            padding: 80px 20px 70px 20px; 
         }
 
-        .container {
-            background-color: rgba(20, 40, 31, 0.85);
-            padding: 40px 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            max-width: 600px;
-            border: 2px solid #e6a100;
-        }
-
-        /* Brasão SVG Central */
+        /* Brasão Centralizado */
         .brasao-central {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px auto;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 25px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .brasao-central svg {
@@ -40,52 +41,84 @@
             height: 100%;
         }
 
-        h1 { font-size: 24px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; color: #ffffff; }
-        h2 { font-size: 18px; color: #e6a100; margin-bottom: 20px; font-weight: normal; }
-        
-        p { font-size: 15px; color: #ddd; line-height: 1.6; margin-bottom: 25px; }
+        .hero h2 { font-size: 36px; margin-bottom: 15px; }
+        .hero p { font-size: 18px; max-width: 700px; margin: 0 auto 25px auto; }
 
-        .badge {
-            display: inline-block;
-            background-color: #e6a100;
-            color: #1e3d2f;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 13px;
-            text-transform: uppercase;
-        }
+        /* Secções Gerais */
+        .section { padding: 60px 10%; background: white; margin-bottom: 20px; }
+        .section-title { text-align: center; color: #1e3d2f; font-size: 26px; margin-bottom: 40px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: #f4f6f9; padding: 25px; border-radius: 8px; border-top: 4px solid #1e3d2f; }
+        .card h3 { color: #1e3d2f; margin-bottom: 10px; }
 
-        footer {
-            margin-top: 30px;
-            font-size: 12px;
-            color: #aaa;
-        }
+        /* Rodapé */
+        footer { background-color: #14281f; color: #aaa; text-align: center; padding: 25px; font-size: 14px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- Brasão Vetorial Oficial -->
+<header>
+    <div class="logo-area">
+        <h1>Guarda Nacional | Guiné-Bissau</h1>
+    </div>
+    <nav>
+        <a href="#inicio">Início</a>
+        <a href="#sobre">Sobre Nós</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#contactos">Contactos</a>
+        <a href="login.html" class="btn-portal">Portal do Funcionário &rarr;</a>
+    </nav>
+</header>
+
+<section id="inicio" class="hero">
+    <!-- Brasão Oficial Centralizado -->
     <div class="brasao-central">
         <svg viewBox="0 0 100 100">
+            <!-- Círculo Exterior Dourado -->
             <circle cx="50" cy="50" r="46" fill="none" stroke="#e6a100" stroke-width="3"/>
+            <!-- Estrela Preta Central da Guiné-Bissau -->
             <polygon points="50,18 57,38 78,38 61,51 68,72 50,59 32,72 39,51 22,38 43,38" fill="black"/>
+            <!-- Ramo Dourado Esquerdo -->
             <path d="M22,62 Q16,72 22,80" fill="none" stroke="#e6a100" stroke-width="2.5"/>
+            <!-- Ramo Dourado Direito -->
             <path d="M78,62 Q84,72 78,80" fill="none" stroke="#e6a100" stroke-width="2.5"/>
         </svg>
     </div>
 
-    <h1>Guarda Nacional</h1>
-    <h2>República da Guiné-Bissau</h2>
+    <h2>Honra, Pátria e Segurança</h2>
+    <p>Garantindo a ordem pública, a segurança do Estado e a proteção das populações na República da Guiné-Bissau.</p>
+</section>
 
-    <p>O Portal Web Institucional e Plataforma Operacional encontram-se em fase de atualização e manutenção do sistema.</p>
+<section id="sobre" class="section">
+    <h2 class="section-title">Nossa Missão</h2>
+    <div class="cards-grid">
+        <div class="card">
+            <h3>Ordem Pública</h3>
+            <p>Atuação contínua na prevenção e manutenção da segurança operacional e tranquilidade dos cidadãos.</p>
+        </div>
+        <div class="card">
+            <h3>Controlo de Fronteiras</h3>
+            <p>Fiscalização rigorosa de pontos aduaneiros e territoriais para combate a ilícitos operacionais.</p>
+        </div>
+        <div class="card">
+            <h3>Apoio à Comunidade</h3>
+            <p>Assistência e resposta rápida em situações de emergência nacional e socorro comunitário.</p>
+        </div>
+    </div>
+</section>
 
-    <div class="badge">🔒 Acesso Privado Reservado</div>
-</div>
+<section id="contactos" class="section" style="background-color: #f4f6f9;">
+    <h2 class="section-title">Contactos Gerais</h2>
+    <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+        <p><strong>Comando Geral da Guarda Nacional</strong></p>
+        <p>Bissau, República da Guiné-Bissau</p>
+        <p style="margin-top: 10px;"><strong>Emergência:</strong> (+245) 9XXXX-XXXX</p>
+        <p><strong>Email Institucional:</strong> contacto@guardanacional.gw</p>
+    </div>
+</section>
 
 <footer>
-    &copy; 2026 Comando Geral da Guarda Nacional. Todos os direitos reservados.
+    <p>&copy; 2026 Guarda Nacional da Guiné-Bissau. Todos os direitos reservados.</p>
 </footer>
 
 </body>
