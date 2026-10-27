@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guarda Nacional | República da Guiné-Bissau</title>
   
-  <!-- Tailwind CSS para estilização moderna e responsiva -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- SDK do Supabase via CDN -->
+  <!-- SDK do Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <style>
@@ -45,7 +45,6 @@
   <header class="bg-gn-dark text-white shadow-xl sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
       
-      <!-- Logo com Estrela Oficial -->
       <div class="flex items-center space-x-3">
         <div class="w-12 h-12 bg-emerald-950 rounded-full flex items-center justify-center border-2 border-amber-400 p-1 shadow-inner">
           <span class="text-2xl text-amber-400 font-black">★</span>
@@ -56,7 +55,6 @@
         </div>
       </div>
       
-      <!-- Links do Menu & Botões de Ação -->
       <nav class="flex flex-wrap items-center justify-center gap-4 text-sm font-medium">
         <a href="#inicio" class="hover:text-amber-400 transition-colors">Início</a>
         <a href="#estatisticas" class="hover:text-amber-400 transition-colors">Operações</a>
@@ -99,142 +97,4 @@
           <p class="text-xs md:text-sm text-emerald-200 uppercase font-semibold mt-2">Vigilância & Prontidão</p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-900/40 border border-emerald-800/60 backdrop-blur-sm">
-          <p class="text-3xl md:text-5xl font-black text-amber-400 tracking-wider">+150</p>
-          <p class="text-xs md:text-sm text-emerald-200 uppercase font-semibold mt-2">Patrulhas / Mês</p>
-        </div>
-        <div class="p-4 rounded-xl bg-emerald-900/40 border border-emerald-800/60 backdrop-blur-sm">
-          <p class="text-3xl md:text-5xl font-black text-amber-400 tracking-wider">8</p>
-          <p class="text-xs md:text-sm text-emerald-200 uppercase font-semibold mt-2">Sectores Operacionais</p>
-        </div>
-        <div class="p-4 rounded-xl bg-emerald-900/40 border border-emerald-800/60 backdrop-blur-sm">
-          <p class="text-3xl md:text-5xl font-black text-amber-400 tracking-wider">100%</p>
-          <p class="text-xs md:text-sm text-emerald-200 uppercase font-semibold mt-2">Compromisso com o Estado</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- NOTÍCIAS EM TEMPO REAL -->
-    <section id="noticias" class="max-w-7xl mx-auto px-4 py-12">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b-2 border-emerald-900/20 pb-4">
-        <div>
-          <h2 class="text-2xl font-bold text-gn-dark">Comunicados e Notícias Oficiais</h2>
-          <p class="text-sm text-gray-500">Atualizações diárias em tempo real sobre a Guarda Nacional e a Segurança do País.</p>
-        </div>
-        <span class="mt-2 md:mt-0 text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full border border-emerald-300 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span> Em Tempo Real (Supabase)
-        </span>
-      </div>
-
-      <div id="container-noticias" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white p-8 rounded-xl shadow text-center text-gray-500 col-span-full border border-gray-200">
-          A carregar comunicados em tempo real...
-        </div>
-      </div>
-    </section>
-
-    <!-- MISSÃO INSTITUCIONAL -->
-    <section id="servicos" class="py-12 bg-gray-50 border-t border-gray-200">
-      <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-2xl font-bold text-center text-gn-dark mb-10 uppercase tracking-wide">Nossa Missão Institucional</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-gn-dark">
-            <div class="text-4xl mb-4">👮‍♂️</div>
-            <h3 class="text-lg font-bold text-gn-dark mb-2">Ordem Pública e Segurança Operacional</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
-              Atuação contínua e ostensiva na prevenção da criminalidade, patrulhamento de zonas urbanas e rurais, proteção de edifícios do Estado e manutenção da ordem e tranquilidade pública em todo o território nacional.
-            </p>
-          </div>
-
-          <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-gn-dark">
-            <div class="text-4xl mb-4">🛂</div>
-            <h3 class="text-lg font-bold text-gn-dark mb-2">Segurança de Fronteiras e Proteção Aduaneira</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
-              Fiscalização rigorosa dos postos de controlo territorial e marítimo da República da Guiné-Bissau. Combate ao tráfico ilícito, controlo do fluxo migratório e proteção das receitas fiscais em coordenação com as autoridades alfandegárias.
-            </p>
-          </div>
-
-          <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-gn-dark">
-            <div class="text-4xl mb-4">🚨</div>
-            <h3 class="text-lg font-bold text-gn-dark mb-2">Proteção Civil e Apoio Comunitário</h3>
-            <p class="text-gray-600 text-sm leading-relaxed">
-              Assistência imediata às populações em situações de emergência nacional, calamidades naturais e missões de socorro. Proximidade constante com os cidadãos para garantir a segurança humana e a paz social.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACTOS -->
-    <section id="contactos" class="py-12 bg-white border-t border-gray-200">
-      <div class="max-w-4xl mx-auto px-4 text-center">
-        <h2 class="text-2xl font-bold text-gn-dark mb-6">Contactos Gerais e Emergências</h2>
-        <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200 space-y-3 text-gray-700 text-sm shadow-sm">
-          <p class="font-bold text-base text-gn-dark">Comando Geral da Guarda Nacional</p>
-          <p>Bissau, República da Guiné-Bissau</p>
-          <p class="pt-2"><span class="font-bold text-emerald-900">Linha de Emergência (Piquete):</span> 112 / (+245) 95 500 00 00</p>
-          <p><span class="font-bold text-emerald-900">Gabinete de Imprensa:</span> comunicacao@guardanacional.gw</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- PORTAL DO FUNCIONÁRIO -->
-  <main id="portal-funcionario" class="flex-grow hidden bg-gray-100 py-10 px-4">
-    <div class="max-w-4xl mx-auto space-y-8">
-      <div class="bg-gn-dark text-white p-6 rounded-xl shadow-lg flex justify-between items-center border-l-8 border-amber-500">
-        <div>
-          <span class="text-[10px] font-black uppercase bg-emerald-800 text-amber-400 px-2.5 py-1 rounded tracking-wider">SISTEMA INTERNO RESERVADO</span>
-          <h2 class="text-2xl font-bold mt-2">SISTEMA OPERACIONAL DA GUARDA NACIONAL</h2>
-          <p class="text-xs text-emerald-200 mt-1">Sessão Ativa: <span class="font-bold text-amber-400">Tenente Amadu Baldé (Matrícula 03029/25)</span></p>
-        </div>
-        <button onclick="alternarPortal()" class="text-xs bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded font-bold shadow">
-          Sair / Voltar
-        </button>
-      </div>
-
-      <!-- FORMULÁRIO OCORRÊNCIAS -->
-      <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-        <h3 class="text-lg font-bold text-gn-dark mb-4 border-b pb-2">📝 Registar Nova Ocorrência Operacional</h3>
-        <form id="form-ocorrencia" class="space-y-4">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-bold text-gray-700 uppercase">Matrícula do Agente</label>
-              <input type="text" id="oc-matricula" value="03029/25" required class="w-full p-2.5 border rounded bg-gray-50">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-gray-700 uppercase">Tipo de Ocorrência</label>
-              <select id="oc-tipo" class="w-full p-2.5 border rounded bg-white">
-                <option value="Patrulhamento de Rotina">Patrulhamento de Rotina</option>
-                <option value="Fiscalização Aduaneira">Fiscalização Aduaneira</option>
-                <option value="Incidente de Ordem Pública">Incidente de Ordem Pública</option>
-                <option value="Apoio de Emergência">Apoio de Emergência</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-gray-700 uppercase">Localização / Sector</label>
-            <input type="text" id="oc-local" placeholder="Ex: Posto de Controlo de Safim" required class="w-full p-2.5 border rounded">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-gray-700 uppercase">Descrição dos Factos</label>
-            <textarea id="oc-descricao" rows="3" placeholder="Detalhes operacionais..." required class="w-full p-2.5 border rounded"></textarea>
-          </div>
-          <button type="submit" class="w-full bg-gn-dark text-white font-bold py-3 rounded-lg hover:bg-emerald-800 shadow">
-            💾 Gravar Ocorrência no Supabase
-          </button>
-        </form>
-      </div>
-
-      <!-- FORMULÁRIO NOTÍCIAS -->
-      <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-        <h3 class="text-lg font-bold text-gn-dark mb-4 border-b pb-2">📢 Publicar Notícia / Comunicado</h3>
-        <form id="form-noticia" class="space-y-4">
-          <div>
-            <label class="block text-xs font-bold text-gray-700 uppercase">Título do Comunicado</label>
-            <input type="text" id="not-titulo" placeholder="Título oficial..." required class="w-full p-2.5 border rounded">
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-bold text-gray-700 uppercase">Categoria</label>
-              <select id="not-categoria" class
+          <p class="text-3xl md:text-5xl font-black text-amber-400 tracking-wider
