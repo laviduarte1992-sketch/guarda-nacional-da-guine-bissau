@@ -1,107 +1,105 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guarda Nacional | República da Guiné-Bissau</title>
-  
-  <!-- Tailwind CSS para estilização moderna e responsiva -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- SDK do Supabase via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
-  <style>
-    .bg-gn-dark { background-color: #064e3b; }
-    .bg-gn-gold { background-color: #d97706; }
-    .text-gn-dark { color: #064e3b; }
-    .border-gn-dark { border-color: #064e3b; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guarda Nacional da Guiné-Bissau - Portal Oficial</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #1e3d2f; 
+            color: white; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            padding: 20px;
+        }
 
-    @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    .animate-marquee {
-      display: inline-block;
-      white-space: nowrap;
-      animation: marquee 25s linear infinite;
-    }
-  </style>
-</head>
-<body class="bg-gray-100 text-gray-800 font-sans flex flex-col min-h-screen">
+        .container {
+            background-color: rgba(20, 40, 31, 0.85);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            max-width: 600px;
+            border: 2px solid #e6a100;
+        }
 
-  <!-- BARRA DE ALERTA DE ÚLTIMA HORA -->
-  <div class="bg-amber-500 text-slate-900 text-xs font-bold py-1.5 px-4 overflow-hidden shadow-inner flex items-center border-b border-amber-600">
-    <span class="bg-red-700 text-white px-2 py-0.5 rounded text-[10px] uppercase font-black mr-3 shrink-0 tracking-wider">
-      🔔 ALERTA OFICIAL
-    </span>
-    <div class="overflow-hidden w-full relative">
-      <div class="animate-marquee">
-        Guarda Nacional reforça dispositivo de segurança territorial e controlo aduaneiro em todas as regiões da Guiné-Bissau. Para emergências, ligue 112.
-      </div>
-    </div>
-  </div>
+        /* Brasão SVG Central */
+        .brasao-central {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px auto;
+        }
 
-  <!-- CABEÇALHO / NAVEGAÇÃO -->
-  <header class="bg-gn-dark text-white shadow-xl sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
-      
-      <div class="flex items-center space-x-3">
-        <div class="w-12 h-12 bg-emerald-900/80 rounded-full flex items-center justify-center border-2 border-amber-400 p-1 shadow-inner">
-          <span class="text-2xl">🛡️</span>
-        </div>
-        <div>
-          <h1 class="font-extrabold text-lg md:text-xl tracking-wider uppercase leading-tight">Guarda Nacional</h1>
-          <p class="text-xs text-emerald-200 tracking-wide">República da Guiné-Bissau</p>
-        </div>
-      </div>
-      
-      <nav class="flex flex-wrap items-center justify-center gap-4 text-sm font-medium">
-        <a href="#inicio" class="hover:text-amber-400 transition-colors">Início</a>
-        <a href="#estatisticas" class="hover:text-amber-400 transition-colors">Operações</a>
-        <a href="#noticias" class="hover:text-amber-400 transition-colors">Notícias</a>
-        <a href="#servicos" class="hover:text-amber-400 transition-colors">Missão</a>
-        <a href="#contactos" class="hover:text-amber-400 transition-colors">Contactos</a>
+        .brasao-central svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        h1 { font-size: 24px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; color: #ffffff; }
+        h2 { font-size: 18px; color: #e6a100; margin-bottom: 20px; font-weight: normal; }
         
-        <a href="tel:112" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow transition-all transform hover:scale-105">
-          <span>🚨</span> PIQUETE 112
-        </a>
+        p { font-size: 15px; color: #ddd; line-height: 1.6; margin-bottom: 25px; }
 
-        <button onclick="alternarPortal()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-1.5 rounded-lg text-xs shadow transition-all transform hover:scale-105 border border-amber-400">
-          <span id="btn-portal-texto">Portal do Funcionário →</span>
-        </button>
-      </nav>
+        .badge {
+            display: inline-block;
+            background-color: #e6a100;
+            color: #1e3d2f;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Brasão Vetorial Oficial -->
+    <div class="brasao-central">
+        <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="46" fill="none" stroke="#e6a100" stroke-width="3"/>
+            <polygon points="50,18 57,38 78,38 61,51 68,72 50,59 32,72 39,51 22,38 43,38" fill="black"/>
+            <path d="M22,62 Q16,72 22,80" fill="none" stroke="#e6a100" stroke-width="2.5"/>
+            <path d="M78,62 Q84,72 78,80" fill="none" stroke="#e6a100" stroke-width="2.5"/>
+        </svg>
     </div>
-  </header>
 
-  <!-- PORTAL PÚBLICO -->
-  <main id="portal-publico" class="flex-grow">
-    
-    <!-- BANNER INSTITUCIONAL COM FUNDO SÓLIDO MILITAR E EMBLEMA -->
-    <section id="inicio" class="relative bg-gn-dark text-white py-20 px-4 text-center border-b-4 border-amber-500 overflow-hidden shadow-lg">
-      <div class="relative z-10 max-w-4xl mx-auto">
-        <div class="w-20 h-20 mx-auto mb-6 bg-emerald-950/80 rounded-full flex items-center justify-center border-2 border-amber-400 shadow-xl">
-          <span class="text-4xl text-amber-400">🛡️</span>
-        </div>
-        <h2 class="text-3xl md:text-5xl font-black mb-4 tracking-tight drop-shadow-md">Honra, Pátria e Segurança</h2>
-        <p class="text-base md:text-xl text-emerald-100 max-w-2xl mx-auto leading-relaxed drop-shadow">
-          Garantindo a ordem pública, a segurança do Estado e a proteção das populações na República da Guiné-Bissau.
-        </p>
-      </div>
-    </section>
+    <h1>Guarda Nacional</h1>
+    <h2>República da Guiné-Bissau</h2>
 
-    <!-- BLOCO DE ESTATÍSTICAS OPERACIONAIS -->
-    <section id="estatisticas" class="bg-emerald-950 text-white py-10 border-b-2 border-amber-500/40 shadow-inner">
-      <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-        <div class="p-4 rounded-xl bg-emerald-900/40 border border-emerald-800/60 backdrop-blur-sm">
-          <p class="text-3xl md:text-5xl font-black text-amber-400 tracking-wider">24/7</p>
-          <p class="text-xs md:text-sm text-emerald-200 uppercase font-semibold mt-2">Vigilância & Prontidão</p>
-        </div>
-        <div class="p-4 rounded-xl bg-emerald-900/40 border border-emerald-800/60 backdrop-blur-sm">
-          <p class="text-3xl md:text-5xl font-black text-amber-400 tracking-wider">+150</p>
-          <p class="text-xs md:text-sm text-emerald-200 uppercase font-semibold mt-2">Patrulhas / Mês</p>
-        </div>
-        <div class="p-4 rounded-xl bg-emerald-900/40 border border-emerald-800/60 backdrop-blur-sm">
-          <p class="text-3xl md:text-5xl font-black text-amber-400 tracking-wider">8</p>
-          <p class="text-xs md:text-sm text-emerald-200 uppercase font-semibold mt-2">Sectores Operacionais</p>
-        </div>
-        <div class="p-4 rounded-xl bg-emerald-900
+    <p>O Portal Web Institucional e Plataforma Operacional encontram-se em fase de atualização e manutenção do sistema.</p>
+
+    <div class="badge">🔒 Acesso Privado Reservado</div>
+</div>
+
+<!-- RODAPÉ INSTITUCIONAL LIMPO -->
+  <footer class="bg-slate-900 text-gray-400 py-6 text-center text-xs mt-auto">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p>© 2026 Comando Geral da Guarda Nacional da Guiné-Bissau. Todos os direitos reservados.</p>
+      <p class="text-emerald-400 font-semibold tracking-wide pt-1">
+        Desenvolvido por <span class="text-amber-400 font-bold uppercase">Lavi Duarte Indeque</span>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
