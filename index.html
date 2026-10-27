@@ -350,34 +350,37 @@
       }
     }
 
-    document.getElementById('form-ocorrencia').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      alert('Ocorrência registada com sucesso!');
-      document.getElementById('form-ocorrencia').reset();
-    });
-
     document.getElementById('form-noticia').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      alert('Comunicado publicado com sucesso no Portal!');
-      document.getElementById('form-noticia').reset();
-      alternarPortal();
-    });
-document.getElementById('form-noticia').addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const titulo = document.getElementById('not-titulo').value;
       const categoria = document.getElementById('not-categoria').value;
-      const imagem = document.getElementById('not-imagem').value || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600';
+      const imagemInput = document.getElementById('not-imagem').value.trim();
       const conteudo = document.getElementById('not-conteudo').value;
       
       const container = document.getElementById('container-noticias');
       
-      const novoCard = `
-        <article class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all">
+      // Se colocou uma imagem válida (que não seja o link antigo do autocarro), usa-a. Caso contrário, usa o selo institucional com a estrela!
+      let cabecalhoNoticia = '';
+      if (imagemInput && !imagemInput.includes('1544620347')) {
+        cabecalhoNoticia = `
           <div class="h-44 bg-slate-800 relative">
-            <img src="${imagem}" alt="${titulo}" class="w-full h-full object-cover">
+            <img src="${imagemInput}" alt="${titulo}" class="w-full h-full object-cover">
             <span class="absolute top-3 left-3 text-[10px] font-black uppercase px-2.5 py-1 rounded bg-amber-500 text-slate-900 shadow">${categoria}</span>
           </div>
+        `;
+      } else {
+        cabecalhoNoticia = `
+          <div class="h-44 bg-emerald-950 relative flex items-center justify-center border-b-2 border-amber-400">
+            <span class="text-5xl text-amber-400 font-black">★</span>
+            <span class="absolute top-3 left-3 text-[10px] font-black uppercase px-2.5 py-1 rounded bg-amber-500 text-slate-900 shadow">${categoria}</span>
+          </div>
+        `;
+      }
+      
+      const novoCard = `
+        <article class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-all">
+          ${cabecalhoNoticia}
           <div class="p-5">
             <p class="text-xs text-gray-400 mb-1">27 de Outubro, 2026</p>
             <h3 class="font-bold text-lg text-gn-dark mb-2 leading-snug">${titulo}</h3>
